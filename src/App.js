@@ -9,7 +9,7 @@ import ShoppingCart from './components/ShoppingCart';
 
 // Contexts
 import { ProductContext } from './contexts/ProductContext';
-import { CardContext, CartContext } from './contexts/CartContext';
+import { CartContext } from './contexts/CartContext';
 
 function App() {
 	const [products] = useState(data);
@@ -20,10 +20,15 @@ function App() {
 		setCart([...cart, item]);
 	};
 
+	const removeItem = id => {
+		const newCart = cart.filter(item => item.id !== id);
+		setCart(newCart);
+	}
+
 	return (
 		<div className="App">
 			<ProductContext.Provider value={{products, addItem}}>
-				<CartContext.Provider value={cart}>
+				<CartContext.Provider value={{cart, removeItem}}>
 					<Navigation />
 
 					{/* Routes */}
