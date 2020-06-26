@@ -13,17 +13,35 @@ import { CartContext } from './contexts/CartContext';
 
 function App() {
 	const [products] = useState(data);
-	const [cart, setCart] = useState([]);
+	const [cart, setCart] = useState(() => {
+		const item = window.localStorage.getItem("cart");
+		return item ? JSON.parse(item) : [];
+	});
 
 	const addItem = item => {
 		// add the given item to the cart
 		setCart([...cart, item]);
+		setValue([...cart, item]);
 	};
 
 	const removeItem = id => {
 		const newCart = cart.filter(item => item.id !== id);
 		setCart(newCart);
-	}
+	};
+
+	const useLocalStorage = (key, initialValue) => {
+		const [storedValue, setStoredValue] = useState(() => {
+			const item = window.localStorage.getItem(key);
+			return item ? JSON.parse(item) : initialValue;
+		});
+		const setValue = value => {
+			setStoredValue(value);
+			window.localStorage.setItem(key, JSON.stringify(value));
+		};
+		return [storedValue, setValue];
+	};
+
+	const [storedValue, setValue] = useLocalStorage("cart", cart);	
 
 	return (
 		<div className="App">
