@@ -27,6 +27,7 @@ function App() {
 	const removeItem = id => {
 		const newCart = cart.filter(item => item.id !== id);
 		setCart(newCart);
+		setValue(newCart);
 	};
 
 	const useLocalStorage = (key, initialValue) => {
